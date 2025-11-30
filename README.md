@@ -2,6 +2,8 @@
 
 Backend system for automated license detection and compliance reporting using rule-based pattern matching.
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+
 ## Project Structure
 
 ```

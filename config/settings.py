@@ -109,6 +109,9 @@ class Settings(BaseSettings):
         if not v:
             raise ValueError("DATABASE_URL cannot be empty")
         
+        if v.startswith("postgres://"):
+            v = v.replace("postgres://", "postgresql://", 1)
+            
         if not v.startswith(("sqlite://", "postgresql://", "mysql://")):
             logger.warning(
                 f"Database URL has unexpected format: {v}. "

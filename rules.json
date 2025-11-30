@@ -1,0 +1,69 @@
+{
+  "rules": [
+    {
+      "license_type": "MIT",
+      "patterns": [
+        "MIT License",
+        "Permission is hereby granted, free of charge, to any person obtaining a copy"
+      ],
+      "keywords": ["MIT", "permission", "free of charge", "without restriction"],
+      "regex_patterns": [
+        "MIT\\s+License",
+        "Permission\\s+is\\s+hereby\\s+granted.*free\\s+of\\s+charge"
+      ],
+      "confidence_weight": 1.0
+    },
+    {
+      "license_type": "Apache-2.0",
+      "patterns": [
+        "Apache License, Version 2.0",
+        "Licensed under the Apache License, Version 2.0"
+      ],
+      "keywords": ["Apache", "Version 2.0", "Apache License"],
+      "regex_patterns": [
+        "Apache\\s+License.*Version\\s+2\\.0",
+        "Licensed\\s+under\\s+the\\s+Apache\\s+License"
+      ],
+      "confidence_weight": 1.0
+    },
+    {
+      "license_type": "GPL-3.0",
+      "patterns": [
+        "GNU GENERAL PUBLIC LICENSE Version 3",
+        "This program is free software: you can redistribute it and/or modify"
+      ],
+      "keywords": ["GNU", "GPL", "General Public License", "Version 3", "copyleft"],
+      "regex_patterns": [
+        "GNU\\s+GENERAL\\s+PUBLIC\\s+LICENSE.*Version\\s+3",
+        "GNU\\s+GPL.*v3"
+      ],
+      "confidence_weight": 1.0
+    },
+    {
+      "license_type": "BSD-3-Clause",
+      "patterns": [
+        "BSD 3-Clause License",
+        "Redistribution and use in source and binary forms, with or without modification"
+      ],
+      "keywords": ["BSD", "3-Clause", "Redistribution", "binary forms"],
+      "regex_patterns": [
+        "BSD\\s+3-Clause",
+        "Redistribution\\s+and\\s+use\\s+in\\s+source\\s+and\\s+binary\\s+forms"
+      ],
+      "confidence_weight": 1.0
+    },
+    {
+      "license_type": "ISC",
+      "patterns": [
+        "ISC License",
+        "Permission to use, copy, modify, and/or distribute this software"
+      ],
+      "keywords": ["ISC", "permission to use", "copy, modify"],
+      "regex_patterns": [
+        "ISC\\s+License",
+        "Permission\\s+to\\s+use.*copy.*modify.*distribute"
+      ],
+      "confidence_weight": 1.0
+    }
+  ]
+}

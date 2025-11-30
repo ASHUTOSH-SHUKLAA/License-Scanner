@@ -9,3 +9,5 @@ hypothesis==6.92.1
 httpx==0.25.2
 python-multipart==0.0.6
 pydantic-settings==2.1.0
+gunicorn==21.2.0
+psycopg2-binary==2.9.9
