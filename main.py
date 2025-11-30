@@ -15,7 +15,7 @@ from config import get_settings
 from app.database import init_db
 from app.routes import auth
 from app.routes import scans
-# from app.routes import reports
+from app.routes import reports
 from app.exceptions import LCSException
 from app.error_handlers import (
     lcs_exception_handler,
@@ -116,7 +116,7 @@ app.add_middleware(RequestLoggingMiddleware)
 # Include routers
 app.include_router(auth.router)
 app.include_router(scans.router)
-# app.include_router(reports.router)
+app.include_router(reports.router)
 
 
 @app.on_event("startup")
