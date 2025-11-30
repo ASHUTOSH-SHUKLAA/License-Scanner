@@ -13,11 +13,15 @@ from config import get_settings
 settings = get_settings()
 DATABASE_URL = settings.database_url
 
-# Create engine with SQLite-specific settings
+# Create engine
+connect_args = {}
+if DATABASE_URL.startswith("sqlite"):
+    connect_args["check_same_thread"] = False
+
 engine = create_engine(
     DATABASE_URL,
-    echo=False,  # Set to True for SQL query logging
-    connect_args={"check_same_thread": False}  # Needed for SQLite
+    echo=False,
+    connect_args=connect_args
 )
 
 
