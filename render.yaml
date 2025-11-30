@@ -1,6 +1,7 @@
 services:
   - type: web
     name: license-compliance-scanner
+    plan: free
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn main:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:10000
@@ -20,5 +21,6 @@ services:
 
 databases:
   - name: lcs-db
+    plan: free
     databaseName: lcs
     user: lcs_user
