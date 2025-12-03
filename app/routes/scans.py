@@ -357,18 +357,59 @@ async def get_scan(
     )
 
 
-@router.get("", response_model=List[dict])
+@router.get(
+    "",
+    response_model=List[dict],
+    summary="Get scan history",
+    response_description="Paginated list of user's scans",
+    responses={
+        200: {
+            "description": "Scan history retrieved successfully",
+            "content": {
+                "application/json": {
+                    "example": [
+                        {
+                            "scan_id": 42,
+                            "status": "completed",
+                            "created_at": "2024-01-15T10:30:00Z",
+                            "completed_at": "2024-01-15T10:30:01Z"
+                        },
+                        {
+                            "scan_id": 41,
+                            "status": "completed",
+                            "created_at": "2024-01-14T15:20:00Z",
+                            "completed_at": "2024-01-14T15:20:02Z"
+                        }
+                    ]
+                }
+            }
+        },
+        401: {
+            "description": "Authentication required"
+        }
+    }
+)
 async def get_scan_history(
     current_user: CurrentUser,
     session: Session = Depends(get_session),
-    skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(10, ge=1, le=100, description="Maximum number of records to return")
+    skip: int = Query(0, ge=0, description="Number of records to skip for pagination"),
+    limit: int = Query(10, ge=1, le=100, description="Maximum number of records to return (1-100)")
 ) -> List[dict]:
     """
     Retrieve scan history for the authenticated user.
     
     Returns a paginated list of scans with metadata only (no full results).
-    Scans are ordered chronologically with most recent first.
+    Scans are ordered chronologically with most recent first. Use this endpoint
+    to browse your scan history before retrieving full results.
+    
+    **Authentication required** - Include JWT token in Authorization header.
+    
+    **Pagination**: Use `skip` and `limit` parameters to paginate through results.
+    - Default: skip=0, limit=10
+    - Maximum limit: 100
+    
+    **Note**: This endpoint returns metadata only. To get full scan results with
+    detected licenses, use `GET /api/scans/{scan_id}`.
     
     Args:
         current_user: Authenticated user (from JWT token)

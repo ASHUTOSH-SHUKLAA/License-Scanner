@@ -22,7 +22,87 @@ router = APIRouter(prefix="/api/reports", tags=["reports"])
 logger = logging.getLogger(__name__)
 
 
-@router.get("/{scan_id}", response_model=ComplianceReport)
+@router.get(
+    "/{scan_id}",
+    response_model=ComplianceReport,
+    summary="Generate compliance report",
+    response_description="Structured compliance report with licenses and warnings",
+    responses={
+        200: {
+            "description": "Report generated successfully",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "scan_id": 42,
+                        "user_id": 1,
+                        "timestamp": "2024-01-15T10:30:00Z",
+                        "total_licenses_found": 2,
+                        "licenses": [
+                            {
+                                "license_type": "MIT",
+                                "confidence": 0.95,
+                                "matched_text": "MIT License",
+                                "start_position": 0,
+                                "end_position": 11
+                            },
+                            {
+                                "license_type": "Apache-2.0",
+                                "confidence": 0.88,
+                                "matched_text": "Apache License, Version 2.0",
+                                "start_position": 150,
+                                "end_position": 177
+                            }
+                        ],
+                        "warnings": [
+                            "Multiple licenses detected - review compatibility"
+                        ],
+                        "summary": {
+                            "unique_license_types": 2,
+                            "highest_confidence": 0.95,
+                            "average_confidence": 0.915
+                        }
+                    }
+                }
+            }
+        },
+        401: {
+            "description": "Authentication required"
+        },
+        403: {
+            "description": "Access denied - scan belongs to another user",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "error": {
+                            "code": "AUTHORIZATION_ERROR",
+                            "message": "Access denied",
+                            "details": {
+                                "reason": "You can only access reports for your own scans"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        404: {
+            "description": "Scan not found",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "error": {
+                            "code": "NOT_FOUND",
+                            "message": "Scan not found",
+                            "details": {
+                                "scan_id": 42,
+                                "reason": "The requested scan does not exist"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+)
 async def get_report(
     scan_id: int,
     current_user: CurrentUser,
@@ -31,9 +111,17 @@ async def get_report(
     """
     Generate and retrieve a compliance report for a completed scan.
     
-    Returns a structured compliance report containing all detected licenses,
-    summary statistics, and compliance warnings. Users can only access
-    reports for their own scans.
+    Returns a structured compliance report containing:
+    - All detected licenses with confidence scores
+    - Summary statistics (total licenses, unique types, confidence metrics)
+    - Compliance warnings for potential issues
+    - Scan metadata (timestamp, user ID)
+    
+    **Authentication required** - Include JWT token in Authorization header.
+    
+    The report is formatted as JSON following a defined schema, suitable for
+    legal review and documentation purposes. Users can only access reports
+    for their own scans.
     
     Args:
         scan_id: The scan ID to generate a report for
