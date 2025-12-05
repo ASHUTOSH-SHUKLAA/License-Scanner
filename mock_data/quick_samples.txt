@@ -1,0 +1,137 @@
+# Quick Copy-Paste License Samples for Demo
+# Use these for your video recording - just copy and paste into Swagger UI
+
+================================================================================
+SAMPLE 1: MIT LICENSE (FULL) - High Confidence Expected
+================================================================================
+
+MIT License
+
+Copyright (c) 2024 Ashutosh Mani Shukla
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+================================================================================
+SAMPLE 2: APACHE 2.0 LICENSE - High Confidence Expected
+================================================================================
+
+Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+
+================================================================================
+SAMPLE 3: GPL 3.0 LICENSE - High Confidence Expected
+================================================================================
+
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
+
+Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
+
+Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+
+================================================================================
+SAMPLE 4: BSD 3-CLAUSE LICENSE - High Confidence Expected
+================================================================================
+
+BSD 3-Clause License
+
+Copyright (c) 2024, Ashutosh Mani Shukla
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+
+================================================================================
+SAMPLE 5: ISC LICENSE - High Confidence Expected
+================================================================================
+
+ISC License
+
+Copyright (c) 2024, Ashutosh Mani Shukla
+
+Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS.
+
+
+================================================================================
+SAMPLE 6: MULTIPLE LICENSES - Shows Multi-Detection
+================================================================================
+
+This project uses multiple open-source licenses:
+
+Core library: MIT License - Permission is hereby granted, free of charge, to any person obtaining a copy of this software.
+
+Plugin system: Licensed under the Apache License, Version 2.0. You may obtain a copy at http://www.apache.org/licenses/LICENSE-2.0
+
+
+================================================================================
+SAMPLE 7: SHORT MIT REFERENCE - Medium Confidence
+================================================================================
+
+This project is licensed under the MIT License. Permission is hereby granted, free of charge, to any person obtaining a copy.
+
+
+================================================================================
+SAMPLE 8: UNKNOWN/PROPRIETARY - Should Return No Matches
+================================================================================
+
+Proprietary License Agreement
+
+This software is the exclusive property of Example Corp. All rights reserved. No part of this software may be reproduced, distributed, or transmitted in any form without prior written permission from Example Corp.
+
+
+================================================================================
+USER REGISTRATION DATA
+================================================================================
+
+{
+  "username": "demo_user",
+  "password": "SecurePass123!"
+}
+
+Alternative user:
+{
+  "username": "ashutosh_demo",
+  "password": "MySecure@Pass456"
+}
+
+
+================================================================================
+DEMO FLOW RECOMMENDATION
+================================================================================
+
+1. Register user → Get JWT token
+2. Authorize with token in Swagger UI
+3. Scan SAMPLE 1 (MIT) → Show high confidence detection
+4. Scan SAMPLE 2 (Apache) → Show different license detection
+5. Scan SAMPLE 6 (Multiple) → Show multi-license detection
+6. Get scan by ID → Show retrieval
+7. Generate report → Show compliance report
+8. Get scan history → Show pagination
+
+Total time: ~5-6 minutes

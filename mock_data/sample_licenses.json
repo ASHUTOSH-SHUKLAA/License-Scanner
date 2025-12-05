@@ -1,0 +1,88 @@
+{
+  "samples": [
+    {
+      "name": "MIT License - Full Text",
+      "description": "Complete MIT license text - should detect with high confidence",
+      "license_text": "MIT License\n\nCopyright (c) 2024 Ashutosh Mani Shukla\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+      "expected_license": "MIT",
+      "expected_confidence": "High (0.95+)"
+    },
+    {
+      "name": "Apache 2.0 License - Full Text",
+      "description": "Complete Apache 2.0 license - should detect with high confidence",
+      "license_text": "Apache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\n\nTERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION\n\n1. Definitions.\n\n\"License\" shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 9 of this document.\n\n\"Licensor\" shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.\n\n\"Legal Entity\" shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity.\n\n\"You\" (or \"Your\") shall mean an individual or Legal Entity exercising permissions granted by this License.\n\n\"Source\" form shall mean the preferred form for making modifications, including but not limited to software source code, documentation source, and configuration files.\n\nLicensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License.",
+      "expected_license": "Apache-2.0",
+      "expected_confidence": "High (0.95+)"
+    },
+    {
+      "name": "GPL 3.0 License - Header",
+      "description": "GPL 3.0 license header - should detect with high confidence",
+      "license_text": "GNU GENERAL PUBLIC LICENSE\nVersion 3, 29 June 2007\n\nCopyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\n\nEveryone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.\n\nPreamble\n\nThe GNU General Public License is a free, copyleft license for software and other kinds of works.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.",
+      "expected_license": "GPL-3.0",
+      "expected_confidence": "High (0.95+)"
+    },
+    {
+      "name": "BSD 3-Clause License",
+      "description": "BSD 3-Clause license - should detect with high confidence",
+      "license_text": "BSD 3-Clause License\n\nCopyright (c) 2024, Ashutosh Mani Shukla\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.\n\nTHIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS \"AS IS\" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.",
+      "expected_license": "BSD-3-Clause",
+      "expected_confidence": "High (0.95+)"
+    },
+    {
+      "name": "ISC License",
+      "description": "ISC license - should detect with high confidence",
+      "license_text": "ISC License\n\nCopyright (c) 2024, Ashutosh Mani Shukla\n\nPermission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.",
+      "expected_license": "ISC",
+      "expected_confidence": "High (0.95+)"
+    },
+    {
+      "name": "MIT License - Short Form",
+      "description": "Abbreviated MIT license - should still detect via keywords",
+      "license_text": "This project is licensed under the MIT License.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software.",
+      "expected_license": "MIT",
+      "expected_confidence": "Medium-High (0.85+)"
+    },
+    {
+      "name": "Apache 2.0 - Short Reference",
+      "description": "Short Apache reference - should detect via keywords",
+      "license_text": "Licensed under the Apache License, Version 2.0. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0",
+      "expected_license": "Apache-2.0",
+      "expected_confidence": "High (0.85+)"
+    },
+    {
+      "name": "Multiple Licenses - MIT and Apache",
+      "description": "Text containing references to multiple licenses - should detect both",
+      "license_text": "This project uses multiple licenses:\n\nCore library: MIT License - Permission is hereby granted, free of charge, to any person obtaining a copy.\n\nPlugin system: Licensed under the Apache License, Version 2.0.",
+      "expected_license": "MIT, Apache-2.0",
+      "expected_confidence": "Medium (0.70+)"
+    },
+    {
+      "name": "GPL with Copyleft Keywords",
+      "description": "GPL text with strong copyleft indicators",
+      "license_text": "This software is licensed under GNU GPL Version 3. It is a copyleft license that requires derivative works to also be open source under the same General Public License terms.",
+      "expected_license": "GPL-3.0",
+      "expected_confidence": "Medium (0.65+)"
+    },
+    {
+      "name": "Unknown License",
+      "description": "Proprietary license text - should not match any known licenses",
+      "license_text": "Proprietary License Agreement\n\nThis software is the exclusive property of Example Corp. All rights reserved. No part of this software may be reproduced, distributed, or transmitted in any form without prior written permission from Example Corp.",
+      "expected_license": "None",
+      "expected_confidence": "N/A"
+    },
+    {
+      "name": "Empty Text",
+      "description": "Edge case - empty license text",
+      "license_text": "",
+      "expected_license": "None",
+      "expected_confidence": "N/A"
+    },
+    {
+      "name": "Package.json MIT Reference",
+      "description": "Realistic package.json license field",
+      "license_text": "{\n  \"name\": \"my-awesome-package\",\n  \"version\": \"1.0.0\",\n  \"license\": \"MIT\",\n  \"description\": \"An awesome package\"\n}",
+      "expected_license": "MIT",
+      "expected_confidence": "Low-Medium (0.60+)"
+    }
+  ]
+}

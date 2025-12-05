@@ -9,8 +9,8 @@ Requirements: 2.1, 2.4, 4.1, 4.2, 4.3, 6.1, 6.2, 6.3, 6.5
 
 import json
 import logging
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from typing import List, Optional
+from fastapi import APIRouter, Depends, HTTPException, status, Query, UploadFile, File, Form
 from sqlmodel import Session
 
 from config import get_settings
@@ -41,7 +41,7 @@ def get_license_engine() -> LicenseEngine:
     "",
     response_model=ScanResult,
     status_code=status.HTTP_201_CREATED,
-    summary="Submit license text for scanning",
+    summary="Submit license text or file for scanning",
     response_description="Scan results with detected licenses",
     responses={
         201: {
@@ -98,13 +98,14 @@ def get_license_engine() -> LicenseEngine:
     }
 )
 async def create_scan(
-    request: ScanRequest,
     current_user: CurrentUser,
     session: Session = Depends(get_session),
-    license_engine: LicenseEngine = Depends(get_license_engine)
+    license_engine: LicenseEngine = Depends(get_license_engine),
+    license_text: Optional[str] = Form(None),
+    file: Optional[UploadFile] = File(None)
 ) -> ScanResult:
     """
-    Submit license text for scanning.
+    Submit license text or file for scanning.
     
     Creates a new scan, executes license detection using rule-based pattern matching,
     and returns results immediately. The scan is associated with the authenticated user
@@ -112,19 +113,29 @@ async def create_scan(
     
     **Authentication required** - Include JWT token in Authorization header.
     
+    **Two input methods:**
+    1. **JSON text** (Content-Type: application/json):
+       ```json
+       {"license_text": "MIT License\\n\\nPermission is hereby granted..."}
+       ```
+    
+    2. **File upload** (Content-Type: multipart/form-data):
+       - Supported formats: .txt, .md, .license, LICENSE (no extension)
+       - Maximum file size: 100KB
+       - File parameter name: `file`
+    
     The license detection engine applies all configured rules and returns:
     - Detected license types
     - Confidence scores (0.0 to 1.0)
     - Matched text snippets
     - Position information (start/end)
     
-    Maximum input size: 1MB
-    
     Args:
-        request: ScanRequest containing license text
         current_user: Authenticated user (from JWT token)
         session: Database session
         license_engine: License detection engine
+        license_text: License text (for JSON input)
+        file: License file (for file upload)
         
     Returns:
         ScanResult: The scan results with detected licenses
@@ -137,9 +148,74 @@ async def create_scan(
     """
     scan_service = ScanService(session, license_engine)
     
+    # Determine input source and extract text
+    text_to_scan = None
+    
     try:
+        # Check if file was uploaded
+        if file is not None:
+            logger.info(
+                f"Processing file upload: {file.filename}",
+                extra={"user_id": current_user.id, "uploaded_filename": file.filename}
+            )
+            
+            # Validate file type
+            allowed_extensions = {'.txt', '.md', '.license', ''}
+            file_ext = ''
+            if file.filename:
+                parts = file.filename.rsplit('.', 1)
+                if len(parts) > 1:
+                    file_ext = '.' + parts[1].lower()
+                # Allow files named exactly "LICENSE" with no extension
+                if file.filename.upper() != 'LICENSE' and file_ext not in allowed_extensions:
+                    raise ValueError(
+                        f"Unsupported file type. Allowed: .txt, .md, .license, or LICENSE (no extension). "
+                        f"Got: {file.filename}"
+                    )
+            
+            # Read file content
+            content_bytes = await file.read()
+            
+            # Validate file size (100KB limit)
+            if len(content_bytes) > 100 * 1024:
+                raise ValueError(
+                    f"File size exceeds maximum of 100KB (got {len(content_bytes)} bytes)"
+                )
+            
+            # Decode file content (try UTF-8 first, fallback to latin-1)
+            try:
+                text_to_scan = content_bytes.decode('utf-8')
+            except UnicodeDecodeError:
+                try:
+                    text_to_scan = content_bytes.decode('latin-1')
+                    logger.warning(
+                        f"File decoded using latin-1 fallback: {file.filename}",
+                        extra={"user_id": current_user.id, "uploaded_filename": file.filename}
+                    )
+                except Exception:
+                    raise ValueError("Unable to decode file. Please ensure it's a text file with UTF-8 or Latin-1 encoding.")
+            
+            logger.info(
+                f"File uploaded successfully: {file.filename} ({len(content_bytes)} bytes)",
+                extra={"user_id": current_user.id, "uploaded_filename": file.filename, "size_bytes": len(content_bytes)}
+            )
+        
+        # Check if text was provided via form/JSON (not None and not empty string)
+        elif license_text is not None and license_text.strip():
+            text_to_scan = license_text
+            logger.info(
+                f"Processing text input",
+                extra={"user_id": current_user.id, "text_size": len(license_text)}
+            )
+        
+        # Neither file nor text provided
+        else:
+            raise ValueError(
+                "No input provided. Please provide either 'license_text' (text) or 'file' (file upload)."
+            )
+        
         # Create scan (validates input)
-        scan = scan_service.create_scan(current_user.id, request.license_text)
+        scan = scan_service.create_scan(current_user.id, text_to_scan)
         
         # Execute scan immediately
         scan = scan_service.execute_scan(scan.id)
@@ -163,6 +239,10 @@ async def create_scan(
         
     except ValueError as e:
         # Input validation errors
+        logger.warning(
+            f"Scan creation failed: {str(e)}",
+            extra={"user_id": current_user.id, "error": str(e)}
+        )
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail={
@@ -177,6 +257,11 @@ async def create_scan(
         )
     except Exception as e:
         # Internal errors
+        logger.error(
+            f"Scan processing failed: {str(e)}",
+            extra={"user_id": current_user.id, "error": str(e)},
+            exc_info=True
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail={

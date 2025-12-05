@@ -1,0 +1,141 @@
+# JSON Samples for Swagger UI Demo
+# Copy these EXACTLY as-is into the Swagger UI request body
+
+================================================================================
+SAMPLE 1: MIT LICENSE (FULL) - Expected: High Confidence (0.95+)
+================================================================================
+
+{
+  "license_text": "MIT License\n\nCopyright (c) 2024 Ashutosh Mani Shukla\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+}
+
+
+================================================================================
+SAMPLE 2: APACHE 2.0 LICENSE - Expected: High Confidence (0.95+)
+================================================================================
+
+{
+  "license_text": "Apache License\nVersion 2.0, January 2004\nhttp://www.apache.org/licenses/\n\nLicensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an \"AS IS\" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License."
+}
+
+
+================================================================================
+SAMPLE 3: GPL 3.0 LICENSE - Expected: High Confidence (0.95+)
+================================================================================
+
+{
+  "license_text": "GNU GENERAL PUBLIC LICENSE\nVersion 3, 29 June 2007\n\nCopyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>\n\nEveryone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.\n\nThis program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details."
+}
+
+
+================================================================================
+SAMPLE 4: BSD 3-CLAUSE LICENSE - Expected: High Confidence (0.95+)
+================================================================================
+
+{
+  "license_text": "BSD 3-Clause License\n\nCopyright (c) 2024, Ashutosh Mani Shukla\nAll rights reserved.\n\nRedistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\n1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\n2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.\n\n3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission."
+}
+
+
+================================================================================
+SAMPLE 5: ISC LICENSE - Expected: High Confidence (0.95+)
+================================================================================
+
+{
+  "license_text": "ISC License\n\nCopyright (c) 2024, Ashutosh Mani Shukla\n\nPermission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS."
+}
+
+
+================================================================================
+SAMPLE 6: MULTIPLE LICENSES - Expected: MIT + Apache-2.0 Detection
+================================================================================
+
+{
+  "license_text": "This project uses multiple open-source licenses:\n\nCore library: MIT License - Permission is hereby granted, free of charge, to any person obtaining a copy of this software.\n\nPlugin system: Licensed under the Apache License, Version 2.0. You may obtain a copy at http://www.apache.org/licenses/LICENSE-2.0"
+}
+
+
+================================================================================
+SAMPLE 7: SHORT MIT REFERENCE - Expected: Medium Confidence (0.70+)
+================================================================================
+
+{
+  "license_text": "This project is licensed under the MIT License. Permission is hereby granted, free of charge, to any person obtaining a copy."
+}
+
+
+================================================================================
+SAMPLE 8: SHORT APACHE REFERENCE - Expected: Medium Confidence (0.70+)
+================================================================================
+
+{
+  "license_text": "Licensed under the Apache License, Version 2.0. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0"
+}
+
+
+================================================================================
+SAMPLE 9: GPL WITH KEYWORDS - Expected: Medium Confidence (0.65+)
+================================================================================
+
+{
+  "license_text": "This software is licensed under GNU GPL Version 3. It is a copyleft license that requires derivative works to also be open source under the same General Public License terms."
+}
+
+
+================================================================================
+SAMPLE 10: UNKNOWN/PROPRIETARY - Expected: No Matches
+================================================================================
+
+{
+  "license_text": "Proprietary License Agreement\n\nThis software is the exclusive property of Example Corp. All rights reserved. No part of this software may be reproduced, distributed, or transmitted in any form without prior written permission from Example Corp."
+}
+
+
+================================================================================
+SAMPLE 11: EMPTY TEXT - Expected: No Matches
+================================================================================
+
+{
+  "license_text": ""
+}
+
+
+================================================================================
+SAMPLE 12: PACKAGE.JSON STYLE - Expected: Low-Medium Confidence
+================================================================================
+
+{
+  "license_text": "{\n  \"name\": \"my-awesome-package\",\n  \"version\": \"1.0.0\",\n  \"license\": \"MIT\",\n  \"description\": \"An awesome package\"\n}"
+}
+
+
+================================================================================
+USER REGISTRATION (for /api/auth/register)
+================================================================================
+
+{
+  "username": "demo_user",
+  "password": "SecurePass123!"
+}
+
+Alternative:
+{
+  "username": "ashutosh_demo",
+  "password": "MySecure@Pass456"
+}
+
+
+================================================================================
+RECOMMENDED DEMO SEQUENCE
+================================================================================
+
+1. POST /api/auth/register with user data → Copy JWT token
+2. Click "Authorize" button → Paste: Bearer <your-token>
+3. POST /api/scans with SAMPLE 1 (MIT) → Note scan_id
+4. POST /api/scans with SAMPLE 2 (Apache)
+5. POST /api/scans with SAMPLE 6 (Multiple licenses)
+6. GET /api/scans/{scan_id} with first scan_id
+7. GET /api/reports/{scan_id} with same scan_id
+8. GET /api/scans?skip=0&limit=10 (no body needed)
+
+Total demo time: ~5-6 minutes
