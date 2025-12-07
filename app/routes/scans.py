@@ -10,7 +10,7 @@ Requirements: 2.1, 2.4, 4.1, 4.2, 4.3, 6.1, 6.2, 6.3, 6.5
 import json
 import logging
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query, UploadFile, File, Form
+from fastapi import APIRouter, Depends, HTTPException, status, Query, UploadFile, File, Form, Body
 from sqlmodel import Session
 
 from config import get_settings
@@ -43,6 +43,28 @@ def get_license_engine() -> LicenseEngine:
     status_code=status.HTTP_201_CREATED,
     summary="Submit license text or file for scanning",
     response_description="Scan results with detected licenses",
+    openapi_extra={
+        "requestBody": {
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "license_text": {
+                                "type": "string",
+                                "description": "License text to analyze (alternative to file upload)"
+                            },
+                            "file": {
+                                "type": "string",
+                                "format": "binary",
+                                "description": "License file to upload (.txt, .md, .license, or LICENSE)"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     responses={
         201: {
             "description": "Scan created and executed successfully",
