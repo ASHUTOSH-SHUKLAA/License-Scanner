@@ -152,8 +152,9 @@ async def create_scan(
     text_to_scan = None
     
     try:
-        # Check if file was uploaded
-        if file is not None:
+        
+        # Check if file was uploaded and has content
+        if file is not None and file.filename:
             logger.info(
                 f"Processing file upload: {file.filename}",
                 extra={"user_id": current_user.id, "uploaded_filename": file.filename}
@@ -201,7 +202,7 @@ async def create_scan(
             )
         
         # Check if text was provided via form/JSON (not None and not empty string)
-        elif license_text is not None and license_text.strip():
+        elif license_text and license_text.strip():
             text_to_scan = license_text
             logger.info(
                 f"Processing text input",
@@ -213,6 +214,7 @@ async def create_scan(
             raise ValueError(
                 "No input provided. Please provide either 'license_text' (text) or 'file' (file upload)."
             )
+
         
         # Create scan (validates input)
         scan = scan_service.create_scan(current_user.id, text_to_scan)
