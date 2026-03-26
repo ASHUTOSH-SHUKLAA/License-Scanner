@@ -16,3 +16,5 @@ services:
         value: rules.json
       - key: LOG_LEVEL
         value: INFO
+      - key: REQUEST_TIMEOUT_SECONDS
+        value: 30

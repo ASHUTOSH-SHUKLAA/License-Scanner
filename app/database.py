@@ -5,54 +5,60 @@ This module handles SQLite database setup, connection management, and schema ini
 """
 
 from sqlmodel import SQLModel, create_engine, Session
-from typing import Generator
+from typing import Generator, Optional
 from config import get_settings
 
 
-# Get database URL from configuration
-settings = get_settings()
-DATABASE_URL = settings.database_url
+# Lazy engine - created on first use to avoid import-time connection errors
+_engine = None
 
-# Create engine
-connect_args = {}
-if DATABASE_URL.startswith("sqlite"):
-    connect_args["check_same_thread"] = False
 
-engine = create_engine(
-    DATABASE_URL,
-    echo=False,
-    connect_args=connect_args
-)
+def get_engine():
+    """Get or create the database engine (lazy initialization)."""
+    global _engine
+    if _engine is None:
+        settings = get_settings()
+        database_url = settings.database_url
+
+        connect_args = {}
+        if database_url.startswith("sqlite"):
+            connect_args["check_same_thread"] = False
+
+        _engine = create_engine(
+            database_url,
+            echo=False,
+            connect_args=connect_args
+        )
+    return _engine
 
 
 def init_db() -> None:
     """
     Initialize the database by creating all tables.
-    
+
     This function should be called on application startup to ensure
     the database schema exists.
     """
-    SQLModel.metadata.create_all(engine)
+    SQLModel.metadata.create_all(get_engine())
 
 
 def get_session() -> Generator[Session, None, None]:
     """
     Dependency function to get a database session.
-    
+
     Yields a SQLModel Session that can be used for database operations.
     The session is automatically closed after use. Transactions are
     automatically rolled back on errors to prevent data corruption.
-    
+
     Yields:
         Session: A SQLModel database session
-        
+
     Requirements: 7.4
     """
-    session = Session(engine)
+    session = Session(get_engine())
     try:
         yield session
     except Exception:
-        # Rollback transaction on any error to prevent data corruption
         session.rollback()
         raise
     finally:
