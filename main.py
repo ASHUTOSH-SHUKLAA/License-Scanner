@@ -146,38 +146,40 @@ async def startup_event():
 def validate_configuration():
     """
     Validate application configuration on startup.
-    
-    Checks that all required configuration values are present and valid,
-    and that required files exist.
-    
-    Raises:
-        FileNotFoundError: If required files don't exist
-        ValueError: If configuration is invalid
     """
     from pathlib import Path
-    
-    # Settings are already validated by Pydantic, but we can do additional checks
-    
+    import os
+
+    logger = logging.getLogger(__name__)
+
+    # Log the actual DATABASE_URL being used (mask password)
+    db_url = settings.database_url
+    if "://" in db_url:
+        scheme = db_url.split("://")[0]
+        logger.info(f"Database scheme: {scheme}")
+    else:
+        logger.info(f"Database URL: {db_url}")
+
     # Check that rules file exists
     rules_path = Path(settings.rules_file_path)
+    logger.info(f"Looking for rules file at: {rules_path.absolute()}")
+
     if not rules_path.exists():
         raise FileNotFoundError(
             f"Rules file not found: {settings.rules_file_path}. "
             "Please ensure the rules file exists before starting the application."
         )
-    
+
     # Validate rules file can be loaded
     try:
         from app.license_engine import LicenseEngine
         engine = LicenseEngine(settings.rules_file_path)
         if not engine.rules:
             raise ValueError("Rules file contains no rules")
+        logger.info(f"Rules loaded successfully: {len(engine.rules)} rules")
     except Exception as e:
         raise ValueError(f"Failed to load rules file: {e}")
-    
-    # Log configuration summary (without sensitive values)
-    logger = logging.getLogger(__name__)
-    logger.info(f"Database URL: {settings.database_url}")
+
     logger.info(f"Rules file: {settings.rules_file_path}")
     logger.info(f"Server: {settings.server_host}:{settings.server_port}")
     logger.info(f"Log level: {settings.log_level}")

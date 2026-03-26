@@ -125,10 +125,11 @@ class TestConfigurationIntegration:
     
     def test_settings_used_in_database(self):
         """Test that settings are used in database configuration."""
-        from app.database import DATABASE_URL
+        from app.database import get_engine
+        from config import get_settings
         settings = get_settings()
-        
-        assert DATABASE_URL == settings.database_url
+        engine = get_engine()
+        assert settings.database_url.split("://")[0] in str(engine.url)
     
     def test_settings_used_in_auth_service(self):
         """Test that settings are used in auth service."""

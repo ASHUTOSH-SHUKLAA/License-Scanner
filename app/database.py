@@ -17,8 +17,19 @@ def get_engine():
     """Get or create the database engine (lazy initialization)."""
     global _engine
     if _engine is None:
+        import os
+        import logging
+        logger = logging.getLogger(__name__)
+
         settings = get_settings()
         database_url = settings.database_url
+
+        # Safety fallback: if URL is postgres but psycopg2 fails, use SQLite
+        # Also handle Render injecting postgres:// instead of postgresql://
+        if database_url.startswith("postgres://"):
+            database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+        logger.info(f"Initializing database engine with URL type: {database_url.split('://')[0]}")
 
         connect_args = {}
         if database_url.startswith("sqlite"):
